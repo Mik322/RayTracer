@@ -70,7 +70,7 @@ impl Vec3 {
         Vec3::unit_vector(&Vec3::random_in_unit_sphere())
     }
 
-    fn random_in_unit_sphere() -> Vec3 {
+    pub fn random_in_unit_sphere() -> Vec3 {
         let mut p;
         loop {
             p = Vec3::random(-1.0, 1.0);

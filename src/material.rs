@@ -1,8 +1,8 @@
-pub mod libertian;
-pub mod metal;
+mod dielectric;
+mod libertian;
+mod metal;
 
-pub use libertian::Libertian;
-pub use metal::Metal;
+pub use {dielectric::Dielectric, libertian::Libertian, metal::Metal};
 
 use crate::{color::Color, hittable::HitRecord, ray::Ray};
 

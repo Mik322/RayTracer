@@ -217,6 +217,18 @@ impl Neg for Vec3 {
     }
 }
 
+impl<'a> Neg for &'a Vec3 {
+    type Output = Vec3;
+
+    fn neg(self) -> Self::Output {
+        Vec3 {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
+        }
+    }
+}
+
 impl Index<isize> for Vec3 {
     type Output = f64;
 

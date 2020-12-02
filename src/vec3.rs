@@ -92,7 +92,7 @@ impl Vec3 {
         }
         p
     }
-    fn random(min: f64, max: f64) -> Vec3 {
+    pub fn random(min: f64, max: f64) -> Vec3 {
         Vec3 {
             x: random_float(min, max),
             y: random_float(min, max),

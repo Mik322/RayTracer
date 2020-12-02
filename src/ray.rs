@@ -25,8 +25,10 @@ pub fn ray_color(ray: &Ray, world: &dyn Hittable, depth: i32) -> Color {
     };
 
     if let Some(rec) = world.hit(ray, 0.001, MAX) {
-        let target = rec.p + rec.normal + Vec3::random_in_hemisphere(&rec.normal);
-        return ray_color(&Ray::create(rec.p, target - rec.p), world, depth - 1) * 0.5;
+        if let Some((scattered, attenuation)) = rec.material.scatter(ray, &rec) {
+            return attenuation * ray_color(&scattered, world, depth - 1);
+        }
+        return Color::zero();
     }
 
     let unit_dir = Vec3::unit_vector(&ray.dir);

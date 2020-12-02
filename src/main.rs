@@ -1,13 +1,16 @@
 mod camera;
 mod color;
 mod hittable;
+mod material;
 mod ray;
 mod renderer;
 mod sphere;
 mod vec3;
 
 use camera::Camera;
+use color::Color;
 use hittable::HittableList;
+use material::{Libertian, Metal};
 use rand::prelude::*;
 use renderer::render_image;
 use sphere::Sphere;
@@ -41,9 +44,32 @@ fn main() {
     let max_depth = 50;
 
     //World
+    let material_ground = Libertian::new(Color::new(0.8, 0.8, 0.0));
+    let material_center = Libertian::new(Color::new(0.7, 0.3, 0.3));
+    let material_left = Metal::new(Color::new(0.8, 0.8, 0.8));
+    let material_right = Metal::new(Color::new(0.8, 0.6, 0.2));
+
     let mut world = HittableList::new();
-    world.add(Sphere::create(Point3::new(0.0, 0.0, -1.0), 0.5));
-    world.add(Sphere::create(Point3::new(0.0, -100.5, -1.0), 100.0));
+    world.add(Sphere::create(
+        Point3::new(0.0, 0.0, -1.0),
+        0.5,
+        material_center,
+    ));
+    world.add(Sphere::create(
+        Point3::new(0.0, -100.5, -1.0),
+        100.0,
+        material_ground,
+    ));
+    world.add(Sphere::create(
+        Point3::new(-1.0, 0.0, -1.0),
+        0.5,
+        material_left,
+    ));
+    world.add(Sphere::create(
+        Point3::new(1.0, 0.0, -1.0),
+        0.5,
+        material_right,
+    ));
 
     //Camera
     let camera = Camera::create(2.0, aspect_ratio, 1.0);

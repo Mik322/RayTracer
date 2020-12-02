@@ -27,6 +27,11 @@ impl Vec3 {
         self.lenght_squared().sqrt()
     }
 
+    pub fn near_zero(&self) -> bool {
+        let s = 1e-8;
+        self.x < s && self.y < s && self.z < s
+    }
+
     pub fn dot(v1: &Vec3, v2: &Vec3) -> f64 {
         v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
     }
@@ -37,6 +42,10 @@ impl Vec3 {
             y: v1.x * v2.z - v1.z * v2.x,
             z: v1.x * v2.y - v1.y * v2.x,
         }
+    }
+
+    pub fn reflect(v: &Vec3, normal: &Vec3) -> Vec3 {
+        v - &(normal * Vec3::dot(v, normal) * 2.0)
     }
 
     pub fn unit_vector(v: &Vec3) -> Vec3 {
@@ -57,12 +66,8 @@ impl Vec3 {
         }
     }
 
-    fn random(min: f64, max: f64) -> Vec3 {
-        Vec3 {
-            x: random_float(min, max),
-            y: random_float(min, max),
-            z: random_float(min, max),
-        }
+    pub fn random_unit_vec() -> Vec3 {
+        Vec3::unit_vector(&Vec3::random_in_unit_sphere())
     }
 
     fn random_in_unit_sphere() -> Vec3 {
@@ -74,6 +79,13 @@ impl Vec3 {
             }
         }
         p
+    }
+    fn random(min: f64, max: f64) -> Vec3 {
+        Vec3 {
+            x: random_float(min, max),
+            y: random_float(min, max),
+            z: random_float(min, max),
+        }
     }
 }
 
@@ -166,6 +178,18 @@ impl Mul<f64> for Vec3 {
 
     fn mul(self, rhs: f64) -> Self::Output {
         Self {
+            x: self.x * rhs,
+            y: self.y * rhs,
+            z: self.z * rhs,
+        }
+    }
+}
+
+impl<'a> Mul<f64> for &'a Vec3 {
+    type Output = Vec3;
+
+    fn mul(self, rhs: f64) -> Self::Output {
+        Vec3 {
             x: self.x * rhs,
             y: self.y * rhs,
             z: self.z * rhs,

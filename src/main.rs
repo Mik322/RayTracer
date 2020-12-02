@@ -13,7 +13,7 @@ use material::{Dielectric, Libertian, Metal};
 use rand::prelude::*;
 use renderer::render_image;
 pub use std::f64::{consts::PI, MAX};
-use vec3::Point3;
+use vec3::{Point3, Vec3};
 
 pub fn degress_to_radians(degrees: f64) -> f64 {
     degrees * PI / 180.0
@@ -77,7 +77,18 @@ fn main() {
     ));
 
     //Camera
-    let camera = Camera::create(2.0, aspect_ratio, 1.0);
+    let lookfrom = Point3::new(-3.0, 0.5, 2.0);
+    let lookat = Point3::new(0.0, 0.0, -1.0);
+
+    let camera = Camera::create(
+        lookfrom,
+        lookat,
+        Vec3::new(0.0, 1.0, 0.0),
+        20.0,
+        aspect_ratio,
+        0.2,
+        (lookfrom - lookat).length(),
+    );
 
     render_image(image_width, image_height, 100, max_depth, &camera, &world);
 }

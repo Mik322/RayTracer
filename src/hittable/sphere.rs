@@ -44,13 +44,10 @@ impl Hittable for Sphere {
             }
         };
 
-        let mut rec = HitRecord::empty();
+        let p = ray.at(root);
+        let outward_normal = (&p - &self.center) / self.radius;
 
-        rec.t = root;
-        rec.p = ray.at(root);
-        rec.material = Rc::clone(&self.material);
-        let outward_normal = (&rec.p - &self.center) / self.radius;
-        rec.set_face_normal(ray, &outward_normal);
+        let rec = HitRecord::create(root, p, &self.material, &outward_normal, ray);
 
         Some(rec)
     }

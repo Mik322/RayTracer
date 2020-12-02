@@ -2,8 +2,7 @@ mod hittable_list;
 mod sphere;
 
 use crate::{
-    color::Color,
-    material::{Libertian, Material},
+    material::Material,
     ray::Ray,
     vec3::{Point3, Vec3},
 };
@@ -20,22 +19,25 @@ pub struct HitRecord {
 }
 
 impl HitRecord {
-    pub fn set_face_normal(&mut self, ray: &Ray, outward_normal: &Vec3) {
-        self.front_face = Vec3::dot(outward_normal, &ray.dir) < 0.0;
-        self.normal = if self.front_face {
+    pub fn create(
+        t: f64,
+        p: Point3,
+        material: &Rc<dyn Material>,
+        outward_normal: &Vec3,
+        ray: &Ray,
+    ) -> HitRecord {
+        let front_face = Vec3::dot(outward_normal, &ray.dir) < 0.0;
+        let normal = if front_face {
             outward_normal.clone()
         } else {
             -outward_normal.clone()
         };
-    }
-
-    pub fn empty() -> HitRecord {
-        Self {
-            p: Point3::zero(),
-            normal: Vec3::zero(),
-            material: Rc::new(Libertian::new(Color::zero())),
-            t: 0.0,
-            front_face: false,
+        HitRecord {
+            p,
+            normal,
+            material: Rc::clone(material),
+            t,
+            front_face,
         }
     }
 }

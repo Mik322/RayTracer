@@ -23,7 +23,7 @@ impl Vec3 {
         }
     }
 
-    pub fn lenght(&self) -> f64 {
+    pub fn length(&self) -> f64 {
         self.lenght_squared().sqrt()
     }
 
@@ -39,7 +39,7 @@ impl Vec3 {
     pub fn cross(v1: &Vec3, v2: &Vec3) -> Vec3 {
         Vec3 {
             x: v1.y * v2.z - v1.z * v2.y,
-            y: v1.x * v2.z - v1.z * v2.x,
+            y: v1.z * v2.x - v1.x * v2.z,
             z: v1.x * v2.y - v1.y * v2.x,
         }
     }
@@ -50,7 +50,7 @@ impl Vec3 {
 
     pub fn unit_vector(v: &Vec3) -> Vec3 {
         let vec = v.clone();
-        return vec / vec.lenght();
+        return vec / vec.length();
     }
 
     pub fn lenght_squared(&self) -> f64 {
@@ -74,6 +74,18 @@ impl Vec3 {
         let mut p;
         loop {
             p = Vec3::random(-1.0, 1.0);
+            if p.lenght_squared() < 1.0 {
+                break;
+            }
+        }
+        p
+    }
+
+    pub fn random_in_unit_disk() -> Vec3 {
+        let mut p = Vec3::new(1.0, 1.0, 0.0);
+        loop {
+            p.x = random_float(-1.0, 1.0);
+            p.y = random_float(-1.0, 1.0);
             if p.lenght_squared() < 1.0 {
                 break;
             }

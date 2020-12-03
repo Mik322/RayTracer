@@ -1,44 +1,21 @@
-mod camera;
-mod color;
-mod hittable;
-mod material;
-mod ray;
-mod renderer;
-mod vec3;
-
-use camera::Camera;
-use color::Color;
-use hittable::{HittableList, Sphere};
-use material::{Dielectric, Libertian, Metal};
 use rand::prelude::*;
-use renderer::render_image;
-pub use std::f64::{consts::PI, MAX};
-use vec3::{Point3, Vec3};
-
-pub fn degress_to_radians(degrees: f64) -> f64 {
-    degrees * PI / 180.0
-}
-
-pub fn random_float(min: f64, max: f64) -> f64 {
-    min + (max - min) * thread_rng().gen::<f64>()
-}
-
-pub fn clamp(x: f64, min: f64, max: f64) -> f64 {
-    if x < min {
-        return min;
-    }
-    if x > max {
-        return max;
-    }
-    x
-}
+use ray_tracer::{
+    camera::Camera,
+    color::Color,
+    hittable::{HittableList, Sphere},
+    material::{Dielectric, Libertian, Metal},
+    random_float,
+    renderer::render_image,
+    vec3::{Point3, Vec3},
+};
 
 fn main() {
-    let aspect_ratio = 3.0 / 2.0;
-    let image_width = 1200;
+    let aspect_ratio = 16.0 / 9.0;
+    let image_width = 600;
     let image_height = (image_width as f64 / aspect_ratio) as i32;
     let samples_per_pixel = 500;
     let max_depth = 50;
+    let image_name = String::from("image");
 
     //World
     let world = random_scene();
@@ -63,6 +40,7 @@ fn main() {
     render_image(
         image_width,
         image_height,
+        image_name,
         samples_per_pixel,
         max_depth,
         &camera,

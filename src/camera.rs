@@ -4,13 +4,21 @@ use crate::{
     vec3::{Point3, Vec3},
 };
 
+/// Represents a camera object
 pub struct Camera {
+    /// Origin point that represents the camera's position
     origin: Point3,
+    /// Vector that represents the horizontal length
     horizontal: Vec3,
+    /// Vector that represents the vertical length
     vertical: Vec3,
+    /// Position of the lower left corner
     lower_left_corner: Vec3,
+    /// Unitary vector that represents the camera's x axis
     u: Vec3,
+    /// Unitary vector that represents the camera's y axis
     v: Vec3,
+    /// Half of the lens' aperture
     lens_radius: f64,
 }
 
@@ -61,6 +69,12 @@ impl Camera {
         }
     }
 
+    /// Returns a ray casted from the camera's lens
+    ///
+    /// # Arguments
+    ///
+    /// * s - horizontal factor, it's multiplied by horizontal vector to get the ray horizontal direction
+    /// * t - vertical factor, it's multiplied by vertical factor to get the ray vertical direction
     pub fn get_ray(&self, s: f64, t: f64) -> Ray {
         let rd: Vec3 = Vec3::random_in_unit_disk() * self.lens_radius;
         let offset: Vec3 = self.u * rd.x + self.v * rd.y;

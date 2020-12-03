@@ -42,6 +42,14 @@ impl HitRecord {
     }
 }
 
+/// Trait that represents a object that is hittable by a ray
 pub trait Hittable {
+    /// Returns a Some(HitRecord) if the ray hitted the object and None if it doesn't
+    ///
+    /// # Arguments
+    ///
+    /// * ray - The ray that was casted
+    /// * t_min - minimum time
+    /// * t_max - maximum time
     fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
 }

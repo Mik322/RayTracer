@@ -1,16 +1,25 @@
 use crate::random_float;
 use std::ops::{Add, AddAssign, Div, DivAssign, Index, Mul, MulAssign, Neg, Sub};
 
+/// Represents a vector with 3 dimensions
 #[derive(Clone, Copy)]
 pub struct Vec3 {
+    /// A Vec3 contains the 3 cordinates (x, y, z) as f64
     pub x: f64,
     pub y: f64,
     pub z: f64,
 }
-
+/// Point3 represents a point in 3d space, is an Vec3 alias
 pub type Point3 = Vec3;
 
 impl Vec3 {
+    /// Returns a Vec3 with the given cordinates
+    ///
+    /// # Arguments
+    ///
+    /// * x
+    /// * y
+    /// * z
     pub fn new(x: f64, y: f64, z: f64) -> Vec3 {
         Vec3 { x, y, z }
     }
@@ -23,19 +32,28 @@ impl Vec3 {
         }
     }
 
+    /// Returns the length of the Vec3
     pub fn length(&self) -> f64 {
         self.lenght_squared().sqrt()
     }
 
+    /// Veturns true if the length of the vector is less than 1e-8
     pub fn near_zero(&self) -> bool {
         let s = 1e-8;
         self.x < s && self.y < s && self.z < s
     }
 
+    /// Returns the result of the mathematical operation dot between two vectors
+    ///
+    /// # Arguments
+    ///
+    /// * v1 - Reference to a Vec3
+    /// * v2 - Referenco to a Vec3
     pub fn dot(v1: &Vec3, v2: &Vec3) -> f64 {
         v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
     }
 
+    /// Returns the normal vector of the plane represented by the two given vectors
     pub fn cross(v1: &Vec3, v2: &Vec3) -> Vec3 {
         Vec3 {
             x: v1.y * v2.z - v1.z * v2.y,
@@ -44,10 +62,17 @@ impl Vec3 {
         }
     }
 
+    /// Returns the vector that was reflected from an incoming vector
+    ///
+    /// # Arguments
+    ///
+    /// * v - The vector that will be reflected
+    /// * normal - The normal of the plane the given vector hitted
     pub fn reflect(v: &Vec3, normal: &Vec3) -> Vec3 {
         v - &(normal * Vec3::dot(v, normal) * 2.0)
     }
 
+    /// Returns the normalized vector
     pub fn unit_vector(v: &Vec3) -> Vec3 {
         let vec = v.clone();
         return vec / vec.length();

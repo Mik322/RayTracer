@@ -1,11 +1,9 @@
 use crate::clamp;
 pub use crate::vec3::Vec3;
-use std::fs::File;
-use std::io::Write;
-
 pub type Color = Vec3;
+use std::{fs::File, io::Write};
 
-pub fn write_color(color: &Color, samples_per_pixel: i32, file: &mut File) {
+pub fn write_color(color: &Color, samples_per_pixel: i32, mut file: &File) {
     let mut r = color.x;
     let mut g = color.y;
     let mut b = color.z;

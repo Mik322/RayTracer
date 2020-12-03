@@ -3,7 +3,7 @@ use ray_tracer::{
     camera::Camera,
     color::Color,
     hittable::{HittableList, Sphere},
-    material::{Dielectric, Libertian, Metal},
+    material::{Dielectric, Lambertian, Metal},
     random_float,
     renderer::render_image,
     vec3::{Point3, Vec3},
@@ -13,7 +13,7 @@ fn main() {
     let aspect_ratio = 16.0 / 9.0;
     let image_width = 600;
     let image_height = (image_width as f64 / aspect_ratio) as i32;
-    let samples_per_pixel = 500;
+    let samples_per_pixel = 250;
     let max_depth = 50;
     let image_name = String::from("image");
 
@@ -51,7 +51,7 @@ fn main() {
 fn random_scene() -> HittableList {
     let mut world = HittableList::new();
 
-    let material_ground = Libertian::new(Color::new(0.5, 0.5, 0.5));
+    let material_ground = Lambertian::new(Color::new(0.5, 0.5, 0.5));
     world.add(Sphere::create(
         Point3::new(0.0, -1000.0, 0.0),
         1000.0,
@@ -73,7 +73,7 @@ fn random_scene() -> HittableList {
                 if choose_mat < 0.8 {
                     //diffuse
                     let albedo = Color::random(0.0, 1.0) * Color::random(0.0, 1.0);
-                    let sphere_material = Libertian::new(albedo);
+                    let sphere_material = Lambertian::new(albedo);
                     world.add(Sphere::create(center, 0.2, sphere_material));
                 } else if choose_mat < 0.95 {
                     //metal
@@ -91,7 +91,7 @@ fn random_scene() -> HittableList {
     }
 
     let material1 = Dielectric::new(1.5);
-    let material2 = Libertian::new(Color::new(0.4, 0.2, 0.1));
+    let material2 = Lambertian::new(Color::new(0.4, 0.2, 0.1));
     let material3 = Metal::new(Color::new(0.7, 0.6, 0.5), 0.0);
 
     world.add(Sphere::create(Point3::new(0.0, 1.0, 0.0), 1.0, material1));

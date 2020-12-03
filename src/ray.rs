@@ -3,7 +3,7 @@ use crate::hittable::Hittable;
 use crate::vec3::{Point3, Vec3};
 use crate::MAX;
 
-/// Represents a ray that can be casted from an origin Point3 and has a direction
+/// Represents a ray that is casted from an origin Point3 and has a direction
 #[derive(Clone, Copy)]
 pub struct Ray {
     pub origin: Point3,

@@ -6,6 +6,7 @@ use crate::{
 };
 use std::rc::Rc;
 
+/// Represents a sphere that has a center, a radius and a material
 pub struct Sphere {
     center: Point3,
     radius: f64,
@@ -13,6 +14,7 @@ pub struct Sphere {
 }
 
 impl Sphere {
+    /// Creates and returns a sphere with the gigen center, radius and material
     pub fn create(center: Point3, radius: f64, material: impl Material + 'static) -> Sphere {
         Sphere {
             center,

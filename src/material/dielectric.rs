@@ -1,16 +1,29 @@
 use crate::{color::Color, hittable::HitRecord, material::Material, ray::Ray, vec3::Vec3};
 use rand::prelude::*;
 
+/// Represents a material that lets light go through it
 #[derive(Clone, Copy)]
 pub struct Dielectric {
+    /// The index of refraction of the material
     ir: f64,
 }
 
 impl Dielectric {
+    /// Returns a Dielectric material
+    ///
+    /// # Arguments
+    ///
+    /// * ir - index of refraction to give to the material
     pub fn new(ir: f64) -> Self {
         Self { ir }
     }
 
+    /// Returns the reflectance of the material when hit with a ray in a certain angle
+    ///
+    /// # Arguments
+    ///
+    /// * cosine - The cosine of the angle between the ray that hitted the material and the normal
+    /// * ref_idx - The ratio between the materials index of refraction and the outside index of refraction
     fn reflectance(cosine: f64, ref_idx: f64) -> f64 {
         let mut r0 = (1.0 - ref_idx) / (1.0 + ref_idx);
         r0 *= r0;
@@ -47,6 +60,13 @@ impl Material for Dielectric {
     }
 }
 
+/// Returns the refractod vector from the incidence of the incoming vector agains a material
+///
+/// # Arguments
+///
+/// * uv - The vector that represents the direction of the incoming ray
+/// * n - The normal of the plane hitted
+/// * etai_over_etat - Ratio between the refraction index of the material the ray was traveling through and the material of the hitted object
 fn refract(uv: &Vec3, n: &Vec3, etai_over_etat: f64) -> Vec3 {
     let cos_theta = Vec3::dot(&(-uv), n).min(1.0);
     let r_out_perp: Vec3 = (uv + &(n * cos_theta)) * etai_over_etat;

@@ -2,9 +2,9 @@ use crate::random_float;
 use std::ops::{Add, AddAssign, Div, DivAssign, Index, Mul, MulAssign, Neg, Sub};
 
 /// Represents a vector with 3 dimensions
+/// A Vec3 contains the 3 cordinates (x, y, z) as f64
 #[derive(Clone, Copy)]
 pub struct Vec3 {
-    /// A Vec3 contains the 3 cordinates (x, y, z) as f64
     pub x: f64,
     pub y: f64,
     pub z: f64,
@@ -24,6 +24,7 @@ impl Vec3 {
         Vec3 { x, y, z }
     }
 
+    /// Returns a vector with all components at zero
     pub fn zero() -> Vec3 {
         Vec3 {
             x: 0.0,
@@ -78,10 +79,16 @@ impl Vec3 {
         return vec / vec.length();
     }
 
+    /// Returns the length squared of a vector
     pub fn lenght_squared(&self) -> f64 {
         self.x * self.x + self.y * self.y + self.z * self.z
     }
 
+    /// Returns a random vector thats inside a hemisphere that intersects a plane
+    ///
+    /// # Arguments
+    ///
+    /// * normal - the normal of the plane that intersects with the hemisphere
     pub fn random_in_hemisphere(normal: &Vec3) -> Vec3 {
         let in_unit_sphere = Vec3::random_in_unit_sphere();
         if Vec3::dot(normal, &in_unit_sphere) > 0.0 {
@@ -91,10 +98,12 @@ impl Vec3 {
         }
     }
 
+    /// Returns a random normalized vector
     pub fn random_unit_vec() -> Vec3 {
         Vec3::unit_vector(&Vec3::random_in_unit_sphere())
     }
 
+    /// Returns a random vector inside a sphere
     pub fn random_in_unit_sphere() -> Vec3 {
         let mut p;
         loop {
@@ -106,6 +115,7 @@ impl Vec3 {
         p
     }
 
+    /// Returns a 2 dimensional random vector inside a circle
     pub fn random_in_unit_disk() -> Vec3 {
         let mut p = Vec3::new(1.0, 1.0, 0.0);
         loop {
@@ -117,6 +127,8 @@ impl Vec3 {
         }
         p
     }
+
+    /// Returns a random vector
     pub fn random(min: f64, max: f64) -> Vec3 {
         Vec3 {
             x: random_float(min, max),

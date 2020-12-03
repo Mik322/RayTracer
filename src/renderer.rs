@@ -6,6 +6,17 @@ use crate::hittable::Hittable;
 use crate::ray::ray_color;
 use rand::prelude::*;
 
+/// Renders the image of the world from the view of the camera and stores it in a ppm file
+///
+/// # Arguments
+///
+/// * image_width - The width in pixels of the image to be rendered
+/// * image_height - The height in pixels of the image to be rendered
+/// * image_name - The name to give to the ppm file
+/// * samples_per_pixel - The number of rays that will be cast per pixel
+/// * max_depth - The maximum number of bounces a ray can have
+/// * camera - The camera that will cast the rays
+/// * world - The hittable list that contains all the hittables that the ray can bouce off
 pub fn render_image(
     image_width: i32,
     image_height: i32,

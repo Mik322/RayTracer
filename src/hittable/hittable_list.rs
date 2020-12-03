@@ -3,17 +3,20 @@ use crate::{
     ray::Ray,
 };
 
+/// Struct that contains a vector of hittables
 pub struct HittableList {
     objects: Vec<Box<dyn Hittable>>,
 }
 
 impl HittableList {
+    /// Returns an empty HittableList
     pub fn new() -> HittableList {
         HittableList {
             objects: Vec::new(),
         }
     }
 
+    /// Adds an hittable object to the HittablesList vector
     pub fn add(&mut self, obj: impl Hittable + 'static) {
         self.objects.push(Box::new(obj));
     }
